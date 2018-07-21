@@ -16,6 +16,25 @@ class Api::V1::SubscriptionsController < ApplicationController
     end
   end
 
+  def get_emails
+    sender = User.find_by(email: params["sender"])
+    subscribers = subscribers(sender)
+    emails = check_email_validity(params["text"])[0]
+    if !emails.nil?
+      emails.each do |email|
+        next unless !subscribers.include?(email)
+        subscribers << email
+      end
+    end
+    if subscribers.count == 0
+      render json: { success: false,
+                     error: 'No recipients' }, status: 400
+    else
+      render json: { success: true,
+                     recipients: subscribers }, status: 201
+    end
+  end
+
   private
 
   def assign_users
@@ -39,5 +58,40 @@ class Api::V1::SubscriptionsController < ApplicationController
     else
       false
     end
+  end
+
+  def subscribers(sender)
+    subscribers = []
+    sender.friends.each do |friend|
+      next unless !friend.blocks.exists?(target_id: sender.id)
+      if !subscribers.include?(friend.email)
+        subscribers << friend.email
+      end
+    end
+    sender.inverse_friends.each do |friend|
+      next unless !friend.blocks.exists?(target_id: sender.id)
+      if !subscribers.include?(friend.email)
+        subscribers << friend.email
+      end
+    end
+    Subscription.where(target_id: sender.id).each do |subscriber|
+      next unless !subscriber.user.blocks.exists?(target_id: sender.id)
+      if !subscribers.include?(subscriber.user.email)
+        subscribers << subscriber.user.email
+      end
+    end
+
+    subscribers
+  end
+
+  def check_email_validity(string)
+    emails = []
+    regex = Regexp.new(/\b[a-zA-Z0-9.!\#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9.-](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)\b/)
+    emails << string.scan(regex)
+    emails.each do |email|
+      next unless !User.exists?(email: email)
+      emails.delete(email)
+    end
+    emails
   end
 end

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       post 'common', to: 'friendships#common'
       post 'subscribe', to: 'subscriptions#create'
       post 'block', to: 'blocks#create'
+      post 'subscribers', to: 'subscriptions#get_emails'
     end
   end
 end
