@@ -1,4 +1,5 @@
 # Friends management
+Friends Management is an api built with features like "Friend", "Unfriend", "Block", "Receive Updates" etc.
 
 ## Getting Started
  
@@ -43,4 +44,53 @@ rails s
 'lisa@example.com'
 'kate@example.com'
 ```
+# This project is deployed in Heroku cloud -
 
+**BASE_URL = https://boiling-thicket-86529.herokuapp.com/
+
+#Custom Headers
+```
+Name  -  Content-Type
+Value  -   application/json
+``` 
+
+1. API to create a friend connection between two email addresses.
+  ```
+  endpoints: https://boiling-thicket-86529.herokuapp.com/api/v1/friends
+  Method: POST
+  request: {"friends":["john@example.com","kate@example.com"]}
+  ```
+
+2. API to retrieve the friends list for an email address.
+  ```
+  endpoint: http://boiling-thicket-86529.herokuapp.com/api/v1/friends?email=kate@example.com
+  Method: GET
+  ```
+
+3. API to retrieve the common friends list between two email addresses.
+  ```
+  endpoints: https://boiling-thicket-86529.herokuapp.com/api/v1/common 
+  Method: POST
+  request: {"friends": ["john@example.com","kate@example.com"]}
+  ```
+
+4. API to subscribe to updates from an email address.
+  ```
+  endpoint: https://boiling-thicket-86529.herokuapp.com/api/v1/subscribe
+  Method: POST
+  request: {"requestor":"john@example.com","target":"kate@example.com"}
+  ```
+
+5. API to block updates from an email address.
+  ```
+  endpoints: https://boiling-thicket-86529.herokuapp.com/api/v1/block
+  Method: POST
+  request: { "requestor": "andy@example.com", "target": "john@example.com" }
+  ```
+
+6. API to retrieve all email addresses that can receive updates from an email address.
+  ```
+  endpoint: https://boiling-thicket-86529.herokuapp.com/api/v1/subscribers
+  Method: POST
+  request: {"sender":"john@example.com","text":"Recieve updates"}
+  ```
