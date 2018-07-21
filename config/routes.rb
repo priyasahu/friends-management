@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       post 'friends', to: 'friendships#create'
       get 'friends', to: 'friendships#show'
       post 'common', to: 'friendships#common'
+      post 'subscribe', to: 'subscriptions#create'
     end
   end
 end
