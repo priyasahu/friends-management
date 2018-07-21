@@ -15,6 +15,20 @@ class Api::V1::FriendshipsController < ApplicationController
 
   end
 
+  def show
+    if (user = User.find_by(email: params['email'])).nil?
+      render json: { success: false,
+                     error: 'No such user'}
+    else
+      friends = []
+      user.friends.each { |friend| friends << friend.email }
+      user.inverse_friends.each { |friend| friends << friend.email }
+      render json: { success: true, friends: friends,
+                     count: friends.count },
+             status: 200
+    end
+  end
+
   private
 
   def friendship_exists?(user, friend)
