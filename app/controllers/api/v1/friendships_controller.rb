@@ -29,6 +29,23 @@ class Api::V1::FriendshipsController < ApplicationController
     end
   end
 
+  def common
+    first_user_friends = []
+    second_user_friends = []
+
+    first_user = User.find_by(email: params['friends'][0])
+    second_user = User.find_by(email: params['friends'][1])
+
+    first_user.friends.each { |friend| first_user_friends << friend.email }
+    first_user.inverse_friends.each { |friend| first_user_friends << friend.email }
+
+    second_user.friends.each { |friend| second_user_friends << friend.email }
+    second_user.inverse_friends.each { |friend| second_user_friends << friend.email }
+
+    common = first_user_friends & second_user_friends
+    render json: { success: true, friends: common, count: common.count }
+  end
+
   private
 
   def friendship_exists?(user, friend)
