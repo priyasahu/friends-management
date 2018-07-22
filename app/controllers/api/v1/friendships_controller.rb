@@ -2,14 +2,14 @@ class Api::V1::FriendshipsController < ApplicationController
   def create
     user1 = User.find_by(email: params['friends'][0])
     user2 = User.find_by(email: params['friends'][1])
-    if !friendship_exists?(@user1, @user2) && !blocked?(@user1, @user2)
+    if !friendship_exists?(user1, user2) && !blocked?(user1, user2)
       friendship = user1.friendships.build(friend_id: user2.id)
       if friendship.save
         render json: { success: true }
       else
         render json: { error: 'Failed to add as friend' }
       end
-    elsif blocked?(@user1, @user2)
+    elsif blocked?(user1, user2)
       render json: { error: 'Users blocked each other'}
     else
       render json: { error: 'Users are already friends' }

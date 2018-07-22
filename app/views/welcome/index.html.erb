@@ -1,0 +1,44 @@
+<div style="padding: 20px 70px 20px 70px">
+  <h2>Welcome to Friends Management Api</h2>
+
+  <div style="border: solid">
+    <p align="center">Run curl command to get the results </p>
+
+    <p>1. API to create a friend connection between two email addresses.</p>
+
+    <p style="background-color: lightgrey">curl -X POST -H 'Content-Type:application/json' -d
+      '{"friends":["lisa@example.com","john@example.com"]}'
+      https://boiling-thicket-86529.herokuapp.com/api/v1/friends</p>
+
+
+    <p>2. API to retrieve the friends list for an email address.</p>
+
+    <p style="background-color: lightgrey">curl -X GET -H 'Content-Type:application/json' -d
+      '{"email":"kate@example.com"}' http://boiling-thicket-86529.herokuapp.com/api/v1/friends</p>
+
+
+    <p>3. API to retrieve the common friends list between two email addresses.</p>
+
+    <p style="background-color: lightgrey">curl -X GET -H 'Content-Type:application/json' -d '{"friends":
+      ["john@example.com","kate@example.com"]}' http://boiling-thicket-86529.herokuapp.com/api/v1/common
+
+    <p>4. API to subscribe to updates from an email address.</p>
+
+    <p style="background-color: lightgrey">curl -X POST -H 'Content-Type:application/json' -d
+      '{"requestor":"john@example.com", "target":"kate@example.com"}'
+      http://boiling-thicket-86529.herokuapp.com/api/v1/subscribe</p>
+
+
+    <p>5. API to block updates from an email address.</p>
+
+    <p style="background-color: lightgrey">curl -X POST -H 'Content-Type:application/json' -d
+      '{"requestor":"john@example.com", "target":"kate@example.com"}'
+      http://boiling-thicket-86529.herokuapp.com/api/v1/block</p>
+
+
+    <p>6. API to retrieve all email addresses that can receive updates from an email address.</p>
+
+    <p style="background-color: lightgrey">curl -X POST -H 'Content-Type:application/json' -d
+      '{"sender":"john@example.com","text":"hello"}' http://boiling-thicket-86529.herokuapp.com/api/v1/subscribers</p>
+  </div>
+</div>
